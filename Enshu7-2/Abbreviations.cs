@@ -51,10 +51,9 @@ namespace Enshu7_2 {
 
         public Boolean Remove(string remKey)
         {
-            if (_dict.ContainsKey(remKey))
-                return true;
-            else
-                return false;
+
+            return _dict.ContainsKey(remKey);
+
         }
 
         public KeyValuePair<string,string>[] thirds()
