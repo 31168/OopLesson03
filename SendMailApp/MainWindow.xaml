@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SendMailApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="500" Width="600">
+    <Grid Background="#FFFFE3E3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="件名：" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tbTitle" Grid.Row="0" Grid.Column="1" Margin="4,4,4,4"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="To：" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tbTo" Grid.Row="1" Grid.Column="1" Margin="4,4,4,4"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Cc：" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tbCc" Grid.Row="2" Grid.Column="1" Margin="4,4,4,4"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Bcc：" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tbBc" Grid.Row="3" Grid.Column="1" Margin="4,4,4,4"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="本文：" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="tbNote" Grid.Row="4" Grid.Column="1" Margin="4,4,4,4"/>
+
+        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btCancel" Content="キャンセル" Width="100" Margin="10" FontSize="16"/>
+            <Button x:Name="btOk" Content="OK" Width="100" Margin="10" FontSize="16"/>
+        </StackPanel>
     </Grid>
 </Window>
