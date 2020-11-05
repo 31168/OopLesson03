@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +26,51 @@ namespace SendMailApp
         public MainWindow()
         {
             InitializeComponent();
+            sc.SendCompleted += Sc_SendCompleted;
+        }
+
+        private void Sc_SendCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+                MessageBox.Show("送信はキャンセルされました。");
+            else
+                MessageBox.Show("送信完了しました。");
+        }
+
+        SmtpClient sc = new SmtpClient();
+
+
+
+        private void btOk_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                MailMessage msg = new MailMessage("ojsinfosys01@gmail.com", tbTo.Text);
+
+                msg.CC.Add(tbCc.Text);
+                msg.Bcc.Add(tbBc.Text);
+                msg.Subject = tbTitle.Text; //件名
+                msg.Body = tbNote.Text; //本文
+
+                
+                sc.Host = "smtp.gmail.com"; //SMTPサーバの設定
+                sc.Port = 587;
+                sc.EnableSsl = true;
+                sc.Credentials = new NetworkCredential("ojsinfosys01@gmail.com", "ojsInfosys2020");
+
+                sc.SendMailAsync(msg); //送信
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btCancel_Click(object sender, RoutedEventArgs e)
+        {
+
+            sc.SendAsyncCancel();
+
         }
     }
 }

@@ -32,8 +32,8 @@
         <TextBox x:Name="tbNote" Grid.Row="4" Grid.Column="1" Margin="4,4,4,4"/>
 
         <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btCancel" Content="キャンセル" Width="100" Margin="10" FontSize="16"/>
-            <Button x:Name="btOk" Content="OK" Width="100" Margin="10" FontSize="16"/>
+            <Button x:Name="btCancel" Content="キャンセル" Width="100" Margin="10" FontSize="16" Click="btCancel_Click"/>
+            <Button x:Name="btOk" Content="OK" Width="100" Margin="10" FontSize="16" Click="btOk_Click"/>
         </StackPanel>
     </Grid>
 </Window>
