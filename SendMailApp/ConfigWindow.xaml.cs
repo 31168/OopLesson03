@@ -19,9 +19,25 @@ namespace SendMailApp
     /// </summary>
     public partial class ConfigWindow : Window
     {
+        Config config = new Config();
+
         public ConfigWindow()
         {
             InitializeComponent();
+        }
+
+        private void btOk_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btDefault_Click(object sender, RoutedEventArgs e)
+        {
+            tbSmtp.Text = config.Smtp;
+            tbPort.Text = config.Port.ToString();
+            tbUserName.Text = config.MailAddress;
+            tbPassWord.Password = config.PassWord;
+            cbSsl.IsChecked = true; 
         }
     }
 }

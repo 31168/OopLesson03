@@ -72,5 +72,17 @@ namespace SendMailApp
             sc.SendAsyncCancel();
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigWindow configWindow = new ConfigWindow();
+            configWindow.Show();
+        }
+
+        //メインウインドウがロードするタイミングで呼び出される
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

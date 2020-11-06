@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace SendMailApp
 {
-    class Config
+    public class Config
     {
+        private static Config Instance { get; set; }
+
         public string Smtp { get; set; }//SMTP Server
         public string MailAddress { get; set; }//My MailAddress (From)
         public string PassWord { get; set; }//Password
         public int Port { get; set; }//Port number
         public bool Ssl { get; set; }//SSl Setting
 
+        public static Config GetInstance()
+        {
+            if (Instance == null)
+                Instance = new Config();
+            return Instance;
+        }
         //Default Setting
         public void DefaultSet()
         {
