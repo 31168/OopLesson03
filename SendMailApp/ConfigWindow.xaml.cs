@@ -20,7 +20,7 @@ namespace SendMailApp
     public partial class ConfigWindow : Window
     {
         Config config = new Config();
-
+            
         public ConfigWindow()
         {
             InitializeComponent();
@@ -28,16 +28,49 @@ namespace SendMailApp
 
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
+            btApply_Click(sender, e);
+            this.Close();
 
         }
 
         private void btDefault_Click(object sender, RoutedEventArgs e)
         {
-            tbSmtp.Text = config.Smtp;
-            tbPort.Text = config.Port.ToString();
-            tbUserName.Text = config.MailAddress;
-            tbPassWord.Password = config.PassWord;
-            cbSsl.IsChecked = true; 
+
+            Config cf = Config.GetInstance().getDefaultStatus();
+            tbSmtp.Text = cf.Smtp;
+            tbPort.Text = cf.Port.ToString();
+            tbUserName.Text = cf.MailAddress;
+            tbPassWord.Password = cf.PassWord;
+            cbSsl.IsChecked = cf.Ssl; 
+        }
+
+        private void btApply_Click(object sender, RoutedEventArgs e)
+        {
+            Config.GetInstance().UpdateStatus(
+            tbSmtp.Text,
+            tbUserName.Text,
+            tbPassWord.Password,
+            int.Parse(tbPort.Text),
+            cbSsl.IsChecked ?? false);
+
+            
+        }
+
+        private void btCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+                Config ss = Config.GetInstance();
+                tbSmtp.Text = ss.Smtp;
+                tbUserName.Text = ss.MailAddress;
+                tbPassWord.Password = ss.PassWord;
+                tbPort.Text = ss.Port.ToString();
+                cbSsl.IsChecked = ss.Ssl;
+
         }
     }
 }

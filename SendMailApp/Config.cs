@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SendMailApp
 {
-    public class Config
+    public  class Config
     {
         private static Config Instance { get; set; }
 
@@ -30,6 +30,28 @@ namespace SendMailApp
             PassWord = "ojsInfosys2020";
             Port = 587;
             Ssl = true;
+        }
+
+        public Config getDefaultStatus()
+        {
+            Config obj = new Config
+            {
+                Smtp = "smtp.gmail.com",
+                MailAddress = "ojsinfosys01@gmail.com",
+                PassWord = "ojsInfosys2020",
+                Port = 587,
+                Ssl = true
+            };
+            return obj;
+        }
+
+        public bool UpdateStatus(string smtp,string mailAddress,string passWord,int port,bool ssl)
+        {
+            Smtp = smtp;
+            MailAddress = mailAddress;
+            PassWord = passWord;
+            Port = port;
+            return true;
         }
     }
 }
