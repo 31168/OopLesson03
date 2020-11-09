@@ -45,19 +45,28 @@ namespace SendMailApp
         {
             try
             {
-
-                MailMessage msg = new MailMessage("ojsinfosys01@gmail.com", tbTo.Text);
+                Config cc = Config.GetInstance();
+                MailMessage msg = new MailMessage(cc.MailAddress, tbTo.Text);
+                
 
                 msg.CC.Add(tbCc.Text);
                 msg.Bcc.Add(tbBc.Text);
                 msg.Subject = tbTitle.Text; //件名
                 msg.Body = tbNote.Text; //本文
 
-                
-                sc.Host = "smtp.gmail.com"; //SMTPサーバの設定
-                sc.Port = 587;
-                sc.EnableSsl = true;
-                sc.Credentials = new NetworkCredential("ojsinfosys01@gmail.com", "ojsInfosys2020");
+                if (tbCc.Text != "")
+                    msg.CC.Add(tbBc.Text);
+
+                if (tbBc.Text != "")
+                    msg.Bcc.Add(tbBc.Text);
+                msg.To.Add("ojsinfosys01@gmail.com");
+                msg.CC.Add(tbCc.Text);
+                msg.Bcc.Add(tbBc.Text);
+
+                sc.Host = cc.Smtp; //SMTPサーバの設定
+                sc.Port = cc.Port;
+                sc.EnableSsl = cc.Ssl;
+                sc.Credentials = new NetworkCredential(cc.MailAddress, cc.PassWord);
 
                 sc.SendMailAsync(msg); //送信
             }catch(Exception ex)
