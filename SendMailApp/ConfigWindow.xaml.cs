@@ -7,10 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MessageBox = System.Windows.MessageBox;
 
 namespace SendMailApp
 {
@@ -19,7 +21,7 @@ namespace SendMailApp
     /// </summary>
     public partial class ConfigWindow : Window
     {
-        Config config = new Config();
+        Config ss = new Config();
             
         public ConfigWindow()
         {
@@ -28,8 +30,8 @@ namespace SendMailApp
 
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(tbPassWord.Password) || !string.IsNullOrWhiteSpace(tbPort.Text) ||
-                !string.IsNullOrWhiteSpace(tbSender.Text) || !string.IsNullOrWhiteSpace(tbSmtp.Text) || !string.IsNullOrWhiteSpace(tbUserName.Text))
+            if (tbPassWord.Password.Length == 0 || tbPort.Text == null ||
+                tbSender.Text == null || tbSmtp.Text == null || tbUserName.Text == null)
             {
                 MessageBox.Show("正しい値を入力してください");
                 return;
@@ -53,8 +55,8 @@ namespace SendMailApp
 
         private void btApply_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(tbPassWord.Password) || !string.IsNullOrWhiteSpace(tbPort.Text) ||
-                !string.IsNullOrWhiteSpace(tbSender.Text) || !string.IsNullOrWhiteSpace(tbSmtp.Text) || !string.IsNullOrWhiteSpace(tbUserName.Text) )
+            if (tbPassWord.Password.Length == 0  || tbPort.Text == null ||
+                tbSender.Text == null || tbSmtp.Text == null || tbUserName.Text == null)
             {
                 MessageBox.Show("正しい値を入力してください");
                 return;
@@ -72,13 +74,22 @@ namespace SendMailApp
 
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
+            if(tbSmtp.Text != ss.Smtp || tbUserName.Text != ss.MailAddress || tbPassWord.Password != ss.PassWord ||
+                tbPort.Text != ss.Port.ToString())
+            {
+                //DialogResult result = MessageBox.Show("変更が反映されません", MessageBoxButtons.OKCancel);
+            }
+
+
+            
             this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-                Config ss = Config.GetInstance();
+
+                ss = Config.GetInstance();
                 tbSmtp.Text = ss.Smtp;
                 tbUserName.Text = ss.MailAddress;
                 tbPassWord.Password = ss.PassWord;
