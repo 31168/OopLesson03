@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -91,7 +92,24 @@ namespace SendMailApp
         //メインウインドウがロードするタイミングで呼び出される
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            try
+            {
+                Config.GetInstance().DeSerialise();
+            }
+            catch (FileNotFoundException)
+            {
+                ConfigWindow configWindow = new ConfigWindow();
+                configWindow.Show();
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try{
+                Config.GetInstance().Serialise();
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

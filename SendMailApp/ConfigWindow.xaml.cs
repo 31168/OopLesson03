@@ -28,6 +28,13 @@ namespace SendMailApp
 
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(tbPassWord.Password) || !string.IsNullOrWhiteSpace(tbPort.Text) ||
+                !string.IsNullOrWhiteSpace(tbSender.Text) || !string.IsNullOrWhiteSpace(tbSmtp.Text) || !string.IsNullOrWhiteSpace(tbUserName.Text))
+            {
+                MessageBox.Show("正しい値を入力してください");
+                return;
+            }
+
             btApply_Click(sender, e);
             this.Close();
 
@@ -46,6 +53,13 @@ namespace SendMailApp
 
         private void btApply_Click(object sender, RoutedEventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(tbPassWord.Password) || !string.IsNullOrWhiteSpace(tbPort.Text) ||
+                !string.IsNullOrWhiteSpace(tbSender.Text) || !string.IsNullOrWhiteSpace(tbSmtp.Text) || !string.IsNullOrWhiteSpace(tbUserName.Text) )
+            {
+                MessageBox.Show("正しい値を入力してください");
+                return;
+            }
+
             Config.GetInstance().UpdateStatus(
             tbSmtp.Text,
             tbUserName.Text,
@@ -71,6 +85,15 @@ namespace SendMailApp
                 tbPort.Text = ss.Port.ToString();
                 cbSsl.IsChecked = ss.Ssl;
 
+        }
+
+        private void Arate()
+        {
+            if (tbPassWord == null || tbPort == null || tbSender == null || tbSmtp == null || tbUserName == null)
+            {
+                MessageBox.Show("正しい値を入力してください");
+                return;
+            }
         }
     }
 }
