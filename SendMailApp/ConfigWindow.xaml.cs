@@ -21,8 +21,9 @@ namespace SendMailApp
     /// </summary>
     public partial class ConfigWindow : Window
     {
-        Config ss = new Config();
-            
+        
+        public bool Change = false;
+
         public ConfigWindow()
         {
             InitializeComponent();
@@ -30,10 +31,9 @@ namespace SendMailApp
 
         private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            if (tbPassWord.Password.Length == 0 || tbPort.Text == null ||
-                tbSender.Text == null || tbSmtp.Text == null || tbUserName.Text == null)
+            if (tbSmtp.Text == "" || tbUserName.Text == "" || tbPort.Text == "" || tbPassWord.Password == "" || tbSender.Text == "")
             {
-                MessageBox.Show("正しい値を入力してください");
+                MessageBox.Show("未入力の項目があります。");
                 return;
             }
 
@@ -48,53 +48,65 @@ namespace SendMailApp
             Config cf = Config.GetInstance().getDefaultStatus();
             tbSmtp.Text = cf.Smtp;
             tbPort.Text = cf.Port.ToString();
-            tbUserName.Text = cf.MailAddress;
+            tbSender.Text = tbUserName.Text = cf.MailAddress;
             tbPassWord.Password = cf.PassWord;
             cbSsl.IsChecked = cf.Ssl; 
         }
 
         private void btApply_Click(object sender, RoutedEventArgs e)
         {
-            if (tbPassWord.Password.Length == 0  || tbPort.Text == null ||
-                tbSender.Text == null || tbSmtp.Text == null || tbUserName.Text == null)
+
+
+            try
             {
-                MessageBox.Show("正しい値を入力してください");
-                return;
+                Config.GetInstance().UpdateStatus(
+                tbSmtp.Text,
+                tbUserName.Text,
+                tbPassWord.Password,
+                int.Parse(tbPort.Text),
+                cbSsl.IsChecked ?? false);
+                ChangeOk(sender, e);
+            }catch(Exception ex)
+            {
+                MessageBox.Show("値を入力してください");
             }
 
-            Config.GetInstance().UpdateStatus(
-            tbSmtp.Text,
-            tbUserName.Text,
-            tbPassWord.Password,
-            int.Parse(tbPort.Text),
-            cbSsl.IsChecked ?? false);
-
-            
+       
         }
 
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
-            if(tbSmtp.Text != ss.Smtp || tbUserName.Text != ss.MailAddress || tbPassWord.Password != ss.PassWord ||
-                tbPort.Text != ss.Port.ToString())
+            if (Change == true)
             {
-                //DialogResult result = MessageBox.Show("変更が反映されません", MessageBoxButtons.OKCancel);
+                MessageBoxResult result = MessageBox.Show("内容が変更されています。保存しますか？", "Daanger", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.Cancel)
+                {
+                    ChangeOk(sender, e);
+                    this.Close();
+                }
+                else if (result == MessageBoxResult.OK)
+                {
+                    btApply_Click(sender, e);
+                    this.Close();
+                }
             }
-
-
-            
-            this.Close();
+            else
+            {
+                ChangeOk(sender, e);
+                this.Close();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Config ss = Config.GetInstance();
 
-
-                ss = Config.GetInstance();
-                tbSmtp.Text = ss.Smtp;
-                tbUserName.Text = ss.MailAddress;
-                tbPassWord.Password = ss.PassWord;
-                tbPort.Text = ss.Port.ToString();
-                cbSsl.IsChecked = ss.Ssl;
+            ss = Config.GetInstance();
+            tbSmtp.Text = ss.Smtp;
+            tbUserName.Text = ss.MailAddress;
+            tbPassWord.Password = ss.PassWord;
+            tbPort.Text = ss.Port.ToString();
+            cbSsl.IsChecked = ss.Ssl;
 
         }
 
@@ -105,6 +117,11 @@ namespace SendMailApp
                 MessageBox.Show("正しい値を入力してください");
                 return;
             }
+        }
+
+        private void ChangeOk(object sender, RoutedEventArgs e)
+        {
+            Change = false;
         }
     }
 }

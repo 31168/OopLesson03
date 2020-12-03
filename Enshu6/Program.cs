@@ -24,6 +24,8 @@ namespace Enshu6
                 new Book {Title = "楽しいC#プログラミング教室",Price = 2540,Pages = 348}
             };
 
+            books.Add(new Book { Title})
+
             Console.WriteLine("\n-----------1-1------------");
             Console.WriteLine($"最大値　= {numbers.Max()}");
 

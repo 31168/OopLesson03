@@ -35,7 +35,7 @@ namespace SendMailApp
             if (e.Cancelled)
                 MessageBox.Show("送信はキャンセルされました。");
             else
-                MessageBox.Show("送信完了しました。");
+                MessageBox.Show(e.Error?.Message ??"送信完了しました。");
         }
 
         SmtpClient sc = new SmtpClient();
@@ -49,9 +49,6 @@ namespace SendMailApp
                 Config cc = Config.GetInstance();
                 MailMessage msg = new MailMessage(cc.MailAddress, tbTo.Text);
                 
-
-                msg.CC.Add(tbCc.Text);
-                msg.Bcc.Add(tbBc.Text);
                 msg.Subject = tbTitle.Text; //件名
                 msg.Body = tbNote.Text; //本文
 
@@ -59,10 +56,7 @@ namespace SendMailApp
                     msg.CC.Add(tbBc.Text);
 
                 if (tbBc.Text != "")
-                    msg.Bcc.Add(tbBc.Text);
-                msg.To.Add("ojsinfosys01@gmail.com");
-                msg.CC.Add(tbCc.Text);
-                msg.Bcc.Add(tbBc.Text);
+                    msg.Bcc.Add(tbBc.Text);                
 
                 sc.Host = cc.Smtp; //SMTPサーバの設定
                 sc.Port = cc.Port;
@@ -80,6 +74,7 @@ namespace SendMailApp
         {
 
             sc.SendAsyncCancel();
+            this.Close();
 
         }
 

@@ -19,7 +19,7 @@ namespace SendMailApp
         public int Port { get; set; }//Port number
         public bool Ssl { get; set; }//SSl Setting
 
-        string serializedData;
+        private Config() { }
 
         public static Config GetInstance()
         {
@@ -52,16 +52,16 @@ namespace SendMailApp
 
         public bool UpdateStatus(string smtp,string mailAddress,string passWord,int port,bool ssl)
         {
-            Smtp = smtp;
-            MailAddress = mailAddress;
-            PassWord = passWord;
-            Port = port;
+            this.Smtp = smtp;
+            this.MailAddress = mailAddress;
+            this.PassWord = passWord;
+            this.Port = port;
+            this.Ssl = ssl;
             return true;
         }
 
-        public void Serialise() {
-
-
+        public void Serialise() 
+        {
             using(var writer = XmlWriter.Create("Config.xml"))
             {
                 var serializer = new XmlSerializer(Instance.GetType());
@@ -74,6 +74,7 @@ namespace SendMailApp
             {
                 var serializer = new XmlSerializer(typeof(Config));
                 Instance = serializer.Deserialize(reader) as Config;
+                Console.WriteLine(Instance);
             }
         }
     }
