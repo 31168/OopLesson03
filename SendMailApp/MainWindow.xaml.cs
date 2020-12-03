@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -105,6 +106,19 @@ namespace SendMailApp
             } catch (Exception ex) {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btAdd_Click(object sender, RoutedEventArgs e)
+        {
+            var add = new OpenFileDialog();
+
+            if (add.ShowDialog() == true)
+                tbAthor.Items.Add(add.FileName);
+        }
+
+        private void btDel_Click(object sender, RoutedEventArgs e)
+        {
+            tbAthor.Items.Clear();
         }
     }
 }
