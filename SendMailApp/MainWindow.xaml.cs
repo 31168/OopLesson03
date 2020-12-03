@@ -63,7 +63,10 @@ namespace SendMailApp
                 sc.Port = cc.Port;
                 sc.EnableSsl = cc.Ssl;
                 sc.Credentials = new NetworkCredential(cc.MailAddress, cc.PassWord);
-
+                foreach (var item in tbAthor.Items)
+                {
+                    msg.Attachments.Add(new Attachment(item.ToString()));
+                }
                 sc.SendMailAsync(msg); //送信
             }catch(Exception ex)
             {
